@@ -17,53 +17,37 @@ client.connect((err) => {
   console.log("connected to database!");
 });
 
-const getAllItems = async () => {
-  const query = "select * from items order by created_at desc;";
+const getAllItems = async (userID) => {
+  const query = "select * from items where user_id = $1::text;";
 
-  const result = await client.query(query);
+  const result = await client.query(query, [userID]);
 
   return result.rows;
 };
 
 const addNewItem = async (item) => {
   const query =
-    "insert into items (task, complete, created_at) values ($1::text, false, current_timestamp);";
+    "insert into items (task, complete, created_at, user_id) values ($1::text, false, current_timestamp, $2::text);";
 
-  const result = await client.query(query, [item.task]);
+  const result = await client.query(query, [item.taskValue, item.userID]);
 };
 
 const markDone = async (item) => {
-  const query = "update items set complete = true where task = $1::text";
-  const result = await client.query(query, [item.task]);
+  const query =
+    "update items set complete = true where task = $1::text and user_id = $2::text;";
+  const result = await client.query(query, [item.Description, item.UserID]);
 };
 
 const markUndo = async (item) => {
-  const query = "update items set complete = false where task = $1::text";
-  const result = await client.query(query, [item.task]);
-};
-
-const deleteItem = async (task) => {
-  const query = "delete from items where task = $1::text";
-  const result = await client.query(query, [task]);
-};
-
-const addNewUser = async (username, password) => {
   const query =
-    "insert into users (user_name, user_password) values ($1::text, $2::text);";
-  const result = await client.query(query, [username, password]);
+    "update items set complete = false where task = $1::text and user_id = $2::text;";
+  const result = await client.query(query, [item.Description, item.UserID]);
 };
 
-const getUser = async (username, password) => {
+const deleteItem = async (item) => {
   const query =
-    "select * from users where user_name = ($1::text) and user_password = ($2::text);";
-  const result = await client.query(query, [username, password]);
-  const userData = result.rows[0];
-  if (userData != undefined) {
-    // console.log(userData);
-    return true;
-  } else {
-    console.log("user does not exist");
-  }
+    "delete from items where task = $1::text and user_id = $2::text;";
+  const result = await client.query(query, [item.Description, item.UserID]);
 };
 
 exports.getAllItems = getAllItems;
@@ -71,12 +55,3 @@ exports.addNewItem = addNewItem;
 exports.markDone = markDone;
 exports.markUndo = markUndo;
 exports.deleteItem = deleteItem;
-exports.addNewUser = addNewUser;
-exports.getUser = getUser;
-
-// let d = async (e, b) => {
-//   const s = await getUser(e, b);
-//   console.log(s, 'this is d');
-// };
-
-// d("B", "m");
