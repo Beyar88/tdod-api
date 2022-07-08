@@ -1,22 +1,31 @@
 {
   "name": "todo_api",
   "version": "1.0.0",
-  "description": "",
+  "description": "codes to build api and connect to data base",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/api.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "beyar",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "node": "^17.7.1",
     "pg": "^8.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Beyar88/todo-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Beyar88/todo-api/issues"
+  },
+  "homepage": "https://github.com/Beyar88/todo-api#readme"
 }
