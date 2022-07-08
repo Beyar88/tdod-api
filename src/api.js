@@ -10,7 +10,7 @@ app.use(
 
 app.use(express.json());
 
-const port = 3100;
+const { PORT = 3100 } = process.env;
 
 app.get("/api/items/:id", async (request, response) => {
   const items = await data.getAllItems(request.params.id);
@@ -44,6 +44,6 @@ app.post("/api/items/delete", async (req, res) => {
   res.status(201).send(`item with task ${item.Description} deleted`);
 });
 
-app.listen(port, () => {
-  console.log(`listening on port ${port} ...`);
+app.listen(PORT, () => {
+  console.log(`listening on PORT ${PORT} ...`);
 });
