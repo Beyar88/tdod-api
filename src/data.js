@@ -1,12 +1,24 @@
 const { Client } = require("pg");
 
-const client = new Client({
-  host: "localhost",
-  user: "beyar",
-  port: "5432",
-  password: "admin",
-  database: "todo",
+const ENV = process.env.NODE_ENV || "development";
+require("dotenv").config({
+  path: `${__dirname}/../.env.${ENV}`,
 });
+
+const config =
+  ENV === "production"
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : {};
+
+if (!process.env.PGDATABASE && !process.env.DATABASE_URL) {
+  throw new Error("PGDATABASE not set");
+}
+const client = new Client(config);
 
 // open the db connection
 client.connect((err) => {
@@ -55,3 +67,4 @@ exports.addNewItem = addNewItem;
 exports.markDone = markDone;
 exports.markUndo = markUndo;
 exports.deleteItem = deleteItem;
+exports.db = client;

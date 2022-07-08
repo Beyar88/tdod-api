@@ -4,8 +4,10 @@
   "description": "codes to build api and connect to data base",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/api.js"
+    "seed": "node seed.js",
+    "start": "node src/api.js",
+    "dev": "nodemon src/api.js",
+    "seed:prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) npm run seed"
   },
   "keywords": [],
   "author": "beyar",
@@ -13,6 +15,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "node": "^17.7.1",
     "pg": "^8.7.1"
