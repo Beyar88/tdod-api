@@ -62,11 +62,6 @@ const deleteItem = async (item) => {
   const result = await client.query(query, [item.Description, item.UserID]);
 };
 
-const getDataBase = async () => {
-  const query = "SELECT * FROM items";
-  const { rows } = await client.query(query);
-};
-exports.getDataBase = getDataBase;
 exports.getAllItems = getAllItems;
 exports.addNewItem = addNewItem;
 exports.markDone = markDone;

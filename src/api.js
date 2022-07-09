@@ -7,19 +7,14 @@ app.use(cors());
 app.use(express.json());
 
 const { PORT = 3100 } = process.env;
-app.get("/", async (request, response) => {
-  const dbStruc = await data.getDataBase();
-  response.status(200).send(dbStruc);
-});
+
 app.get("/api/items/:id", async (request, response) => {
   const items = await data.getAllItems(request.params.id);
-  console.log(items, "item coming back from database");
   response.status(200).send(items);
 });
 
 app.post("/api/items", async (request, response) => {
   const item = request.body;
-  console.log(item, "object being posted");
   await data.addNewItem(item);
 
   response.status(201).send(`Item added with task: ${item.taskValue}`);
